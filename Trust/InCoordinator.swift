@@ -67,8 +67,8 @@ class InCoordinator: Coordinator {
 
         let migration = MigrationInitializer(account: account, chainID: config.chainID)
         migration.perform()
-
-        let web3 = Web3Swift(with: config)
+        let provider = TrustProvider(with: config)
+        let web3 = Web3Swift(with: provider)
         let realm = self.realm(for: migration.config)
         let tokensStorage = TokensDataStore(realm: realm, account: account, config: config, web3: web3)
         let balance =  BalanceCoordinator(account: account, config: config, storage: tokensStorage)

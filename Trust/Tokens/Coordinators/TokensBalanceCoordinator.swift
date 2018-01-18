@@ -15,9 +15,9 @@ protocol TokensBalanceRequests {
 }
 
 class TokensBalanceCoordinator: TokensBalanceRequests {
-    private let web3: Web3Swift
     var ethBalance: Subscribable<BigUInt> = Subscribable(nil)
     var ERC20Balance: Subscribable<[String: BigUInt]> = Subscribable(nil)
+    private let web3: Web3Swift
     init(web3: Web3Swift) {
         self.web3 = web3
     }

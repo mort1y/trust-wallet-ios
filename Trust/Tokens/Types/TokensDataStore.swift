@@ -131,32 +131,7 @@ class TokensDataStore {
             updateDelegate()
             return
         }
-        getTokensBalanceCoordinator.ethBalance.subscribe { value in
-            print(value)
-        }
         getTokensBalanceCoordinator.balance(address: self.account.address.address)
-        getTokensBalanceCoordinator.ERC20Balance(for: self.account.address.address, contract: ["1"])
-        
-        let etherToken = TokensDataStore.etherToken(for: config)
-        let updateTokens = enabledObject.filter { $0 != etherToken }
-        var count = 0
-        for tokenObject in updateTokens {
-            guard let contract = Address(string: tokenObject.contract) else { return }
-            /*
-            getTokensBalanceCoordinator.getBalance(for: account.address, contract: contract) { [weak self] result in
-                guard let `self` = self else { return }
-                switch result {
-                case .success(let balance):
-                    self.update(token: tokenObject, action: .value(balance))
-                case .failure: break
-                }
-                count += 1
-                if count == updateTokens.count {
-                    self.refreshETHBalance()
-                }
-            }
-             */
-        }
     }
     private func refreshETHBalance() {
         /*
