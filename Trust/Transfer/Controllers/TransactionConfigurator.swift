@@ -65,6 +65,8 @@ class TransactionConfigurator {
             )
             completion(.success(()))
         case .token:
+            print("yes")
+            /*
             session.web3.request(request: ContractERC20Transfer(amount: transaction.value, address: transaction.to!.address)) { [unowned self] result in
                 switch result {
                 case .success(let res):
@@ -79,6 +81,7 @@ class TransactionConfigurator {
                     completion(.failure(error))
                 }
             }
+             */
         case .exchange:
             // TODO
             self.configuration = TransactionConfiguration(

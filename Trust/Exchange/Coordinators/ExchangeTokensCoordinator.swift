@@ -17,8 +17,8 @@ class ExchangeTokensCoordinator {
     var tokens: [ExchangeToken]
     let exchangeConfig = ExchangeConfig(server: Config().server)
 
-    private lazy var getBalanceCoordinator: GetBalanceCoordinator = {
-        return GetBalanceCoordinator(web3: session.web3)
+    private lazy var getTokensBalanceCoordinator: TokensBalanceCoordinator = {
+        return TokensBalanceCoordinator(web3: session.web3)
     }()
 
     var viewModel: ExchangeTokensViewModel {
@@ -99,6 +99,7 @@ class ExchangeTokensCoordinator {
     }
 
     func getPrice() {
+        /*
         let request = ExchangeGetPrice(from: from, to: to)
         session.web3.request(request: request) { result in
             switch result {
@@ -124,12 +125,14 @@ class ExchangeTokensCoordinator {
                 NSLog("getPrice error \(error)")
             }
         }
+         */
     }
 
     func getBalances() {
+        /*
         let onlyTokens = tokens.filter { $0.address != exchangeConfig.tokenAddress }
         onlyTokens.forEach { [weak self] token in
-            self?.getBalanceCoordinator.getBalance(for: session.account.address, contract: token.address) { [weak self] result in
+            self?.getTokensBalanceCoordinator.getBalance(for: session.account.address, contract: token.address) { [weak self] result in
                 guard let `self` = self else { return }
                 switch result {
                 case .success(let balance):
@@ -168,9 +171,11 @@ class ExchangeTokensCoordinator {
                 self.tokens[index] = newToken
             }
         }
+         */
     }
 
     func getETHBalance(address: Address, completion: ((BalanceProtocol) -> Void)? = .none) {
+        /*
         let request = EtherServiceRequest(batch: BatchFactory().create(BalanceRequest(address: address.address)))
         Session.send(request) { result in
             switch result {
@@ -179,16 +184,18 @@ class ExchangeTokensCoordinator {
             case .failure: break
             }
         }
+         */
     }
 
     func getBalance() {
+        /*
         if from.address == exchangeConfig.tokenAddress {
             self.getETHBalance(address: session.account.address) { [weak self] balance in
                 self?.balance = balance
             }
         } else {
             // get price for token
-            getBalanceCoordinator.getBalance(for: session.account.address, contract: from.address) { [weak self] result in
+            getTokensBalanceCoordinator.getBalance(for: session.account.address, contract: from.address) { [weak self] result in
                 guard let `self` = self else { return }
                 switch result {
                 case .success(let balance):
@@ -199,5 +206,6 @@ class ExchangeTokensCoordinator {
                 }
             }
         }
+    */
     }
 }

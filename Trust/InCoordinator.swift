@@ -68,8 +68,7 @@ class InCoordinator: Coordinator {
         let migration = MigrationInitializer(account: account, chainID: config.chainID)
         migration.perform()
 
-        let web3 = self.web3(for: config.server)
-        web3.start()
+        let web3 = Web3Swift(with: config)
         let realm = self.realm(for: migration.config)
         let tokensStorage = TokensDataStore(realm: realm, account: account, config: config, web3: web3)
         let balance =  BalanceCoordinator(account: account, config: config, storage: tokensStorage)
@@ -220,10 +219,6 @@ class InCoordinator: Coordinator {
 
     private func realm(for config: Realm.Configuration) -> Realm {
         return try! Realm(configuration: config)
-    }
-
-    private func web3(for server: RPCServer) -> Web3Swift {
-        return Web3Swift(url: config.rpcURL)
     }
 }
 

@@ -18,8 +18,8 @@ protocol TokensDataStoreDelegate: class {
 
 class TokensDataStore {
 
-    private lazy var getBalanceCoordinator: GetBalanceCoordinator = {
-        return GetBalanceCoordinator(web3: self.web3)
+    private lazy var getTokensBalanceCoordinator: TokensBalanceCoordinator = {
+        return TokensBalanceCoordinator(web3: self.web3)
     }()
     private let provider = TrustProviderFactory.makeProvider()
 
@@ -131,12 +131,19 @@ class TokensDataStore {
             updateDelegate()
             return
         }
+        getTokensBalanceCoordinator.ethBalance.subscribe { value in
+            print(value)
+        }
+        getTokensBalanceCoordinator.balance(address: self.account.address.address)
+        getTokensBalanceCoordinator.ERC20Balance(for: self.account.address.address, contract: ["1"])
+        
         let etherToken = TokensDataStore.etherToken(for: config)
         let updateTokens = enabledObject.filter { $0 != etherToken }
         var count = 0
         for tokenObject in updateTokens {
             guard let contract = Address(string: tokenObject.contract) else { return }
-            getBalanceCoordinator.getBalance(for: account.address, contract: contract) { [weak self] result in
+            /*
+            getTokensBalanceCoordinator.getBalance(for: account.address, contract: contract) { [weak self] result in
                 guard let `self` = self else { return }
                 switch result {
                 case .success(let balance):
@@ -148,10 +155,12 @@ class TokensDataStore {
                     self.refreshETHBalance()
                 }
             }
+             */
         }
     }
     private func refreshETHBalance() {
-        self.getBalanceCoordinator.getEthBalance(for: self.account.address) {  [weak self] result in
+        /*
+        self.getTokensBalanceCoordinator.getEthBalance(for: self.account.address) {  [weak self] result in
             guard let `self` = self else { return }
             switch result {
             case .success(let balance):
@@ -161,6 +170,7 @@ class TokensDataStore {
             case .failure: break
             }
         }
+         */
     }
     func updateDelegate() {
         tokensModel.value = enabledObject
